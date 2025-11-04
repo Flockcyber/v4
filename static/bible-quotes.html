@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>GraceNote - Bible Quotes Daily</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/assets/img/bible-icon.png">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/bible-quotes.css?v=1.0">
+</head>
+<body>
+
+  <!-- Splash Screen -->
+  <div id="splash-screen" class="screen active">
+    <div class="splash-content">
+      <div class="logo-container">
+        <i class="bi bi-book-half splash-icon"></i>
+      </div>
+      <h1 class="app-name">GraceNote</h1>
+      <p class="tagline">Receive the Word. One verse at a time.</p>
+      <div class="loading-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Container -->
+  <div id="main-app" class="screen">
+
+    <!-- Navigation Bar -->
+    <nav class="app-navbar">
+      <div class="nav-left">
+        <i class="bi bi-book-half nav-logo"></i>
+        <span class="nav-title">GraceNote</span>
+      </div>
+      <div class="nav-right">
+        <button class="nav-btn" id="settings-btn" title="Settings">
+          <i class="bi bi-gear"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Home Screen / Verse of the Day -->
+    <div id="home-screen" class="content-screen active">
+      <div class="verse-container">
+        <div class="verse-header">
+          <h2 class="section-title">Verse of the Day</h2>
+          <p class="verse-date" id="current-date"></p>
+        </div>
+
+        <div class="verse-card" id="verse-card">
+          <div class="verse-background"></div>
+          <div class="verse-content">
+            <p class="verse-text" id="verse-text">Loading verse...</p>
+            <p class="verse-reference" id="verse-reference"></p>
+          </div>
+        </div>
+
+        <div class="verse-actions">
+          <button class="action-btn primary" id="save-btn">
+            <i class="bi bi-bookmark"></i>
+            Save
+          </button>
+          <button class="action-btn secondary" id="share-btn">
+            <i class="bi bi-share"></i>
+            Share
+          </button>
+          <button class="action-btn tertiary" id="devotional-btn">
+            <i class="bi bi-book"></i>
+            Devotional
+          </button>
+        </div>
+
+        <div class="swipe-indicator">
+          <i class="bi bi-chevron-left"></i>
+          <span>Swipe for more verses</span>
+          <i class="bi bi-chevron-right"></i>
+        </div>
+
+        <div class="verse-navigation">
+          <button class="nav-arrow" id="prev-verse">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <div class="verse-dots" id="verse-dots"></div>
+          <button class="nav-arrow" id="next-verse">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Devotional Screen -->
+    <div id="devotional-screen" class="content-screen">
+      <div class="devotional-container">
+        <div class="devotional-header">
+          <button class="back-btn" id="back-from-devotional">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <h2 class="section-title">Daily Devotional</h2>
+        </div>
+
+        <div class="devotional-card">
+          <div class="devotional-verse">
+            <p class="devotional-verse-text" id="devotional-verse"></p>
+            <p class="devotional-reference" id="devotional-ref"></p>
+          </div>
+
+          <div class="devotional-reflection">
+            <h3>Reflection</h3>
+            <p id="devotional-content"></p>
+          </div>
+
+          <div class="prayer-mode-section">
+            <button class="prayer-mode-btn glow" id="prayer-mode-btn">
+              <i class="bi bi-star"></i>
+              Enter Prayer Mode
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prayer Mode Screen -->
+    <div id="prayer-mode-screen" class="content-screen">
+      <div class="prayer-mode-container">
+        <button class="close-prayer-btn" id="close-prayer">
+          <i class="bi bi-x-lg"></i>
+        </button>
+
+        <div class="prayer-content">
+          <div class="prayer-verse">
+            <p class="prayer-text" id="prayer-verse"></p>
+            <p class="prayer-ref" id="prayer-reference"></p>
+          </div>
+
+          <div class="breathing-circle"></div>
+
+          <p class="prayer-instruction">Take a moment to reflect and pray</p>
+        </div>
+
+        <audio id="prayer-audio" loop>
+          <source src="/assets/audio/peaceful-piano.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="audio-controls">
+          <button class="audio-btn" id="toggle-audio">
+            <i class="bi bi-volume-up"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Saved Verses Screen -->
+    <div id="saved-screen" class="content-screen">
+      <div class="saved-container">
+        <div class="saved-header">
+          <button class="back-btn" id="back-from-saved">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <h2 class="section-title">Saved Verses</h2>
+        </div>
+
+        <div class="saved-list" id="saved-list">
+          <div class="empty-state">
+            <i class="bi bi-bookmark"></i>
+            <p>No saved verses yet</p>
+            <p class="empty-subtitle">Save your favorite verses to see them here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settings-screen" class="content-screen">
+      <div class="settings-container">
+        <div class="settings-header">
+          <button class="back-btn" id="back-from-settings">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <h2 class="section-title">Settings</h2>
+        </div>
+
+        <div class="settings-content">
+          <div class="settings-section">
+            <h3 class="settings-section-title">Appearance</h3>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <i class="bi bi-moon-stars"></i>
+                <div class="setting-text">
+                  <p class="setting-label">Dark Mode</p>
+                  <p class="setting-description">Use dark theme</p>
+                </div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3 class="settings-section-title">Bible</h3>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <i class="bi bi-book"></i>
+                <div class="setting-text">
+                  <p class="setting-label">Bible Version</p>
+                  <p class="setting-description">Choose your preferred translation</p>
+                </div>
+              </div>
+              <select class="setting-select" id="bible-version">
+                <option value="NIV">NIV</option>
+                <option value="KJV">KJV</option>
+                <option value="ESV">ESV</option>
+                <option value="NKJV">NKJV</option>
+                <option value="NLT">NLT</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3 class="settings-section-title">Notifications</h3>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <i class="bi bi-bell"></i>
+                <div class="setting-text">
+                  <p class="setting-label">Daily Reminder</p>
+                  <p class="setting-description">Get notified for daily verse</p>
+                </div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="notifications-toggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <i class="bi bi-clock"></i>
+                <div class="setting-text">
+                  <p class="setting-label">Reminder Time</p>
+                  <p class="setting-description">Set your preferred time</p>
+                </div>
+              </div>
+              <input type="time" class="setting-time" id="reminder-time" value="08:00">
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3 class="settings-section-title">More</h3>
+
+            <button class="setting-item clickable" id="view-saved-btn">
+              <div class="setting-info">
+                <i class="bi bi-bookmark-heart"></i>
+                <div class="setting-text">
+                  <p class="setting-label">Saved Verses</p>
+                  <p class="setting-description">View your collection</p>
+                </div>
+              </div>
+              <i class="bi bi-chevron-right"></i>
+            </button>
+
+            <button class="setting-item clickable" id="about-btn">
+              <div class="setting-info">
+                <i class="bi bi-info-circle"></i>
+                <div class="setting-text">
+                  <p class="setting-label">About</p>
+                  <p class="setting-description">App info and version</p>
+                </div>
+              </div>
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+      <button class="bottom-nav-btn active" data-screen="home">
+        <i class="bi bi-house-door"></i>
+        <span>Home</span>
+      </button>
+      <button class="bottom-nav-btn" data-screen="devotional">
+        <i class="bi bi-book"></i>
+        <span>Devotional</span>
+      </button>
+      <button class="bottom-nav-btn" data-screen="saved">
+        <i class="bi bi-bookmark"></i>
+        <span>Saved</span>
+      </button>
+      <button class="bottom-nav-btn" data-screen="settings">
+        <i class="bi bi-gear"></i>
+        <span>Settings</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <i class="bi bi-check-circle"></i>
+    <span id="toast-message">Verse saved!</span>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/assets/js/bible-quotes.js?v=1.0"></script>
+</body>
+</html>

@@ -1,5 +1,11 @@
 [
   {
+    "name": "GraceNote - Bible Quotes",
+    "imageUrl": "/assets/img/bible-icon.svg",
+    "url": "window.location.href='/bible-quotes.html'",
+    "height": 130
+  },
+  {
     "name": "Google",
     "imageUrl": "/assets/img/google-icon.webp",
     "url": "openAg('https://google.com')"
