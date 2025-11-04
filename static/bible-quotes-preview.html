@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GraceNote - iPhone Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .preview-header {
+      text-align: center;
+      margin-bottom: 40px;
+      color: white;
+    }
+
+    .preview-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .preview-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .phones-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      max-width: 1400px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .phone-mockup {
+      background: #1a1a1a;
+      border-radius: 50px;
+      padding: 15px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      position: relative;
+      aspect-ratio: 9/19.5;
+      max-width: 380px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    .phone-mockup:nth-child(1) { animation-delay: 0.1s; }
+    .phone-mockup:nth-child(2) { animation-delay: 0.2s; }
+    .phone-mockup:nth-child(3) { animation-delay: 0.3s; }
+    .phone-mockup:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .notch {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 30px;
+      background: #1a1a1a;
+      border-radius: 0 0 20px 20px;
+      z-index: 10;
+    }
+
+    .notch::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+    }
+
+    .screen {
+      background: white;
+      border-radius: 40px;
+      overflow: hidden;
+      height: 100%;
+      position: relative;
+    }
+
+    .screen-label {
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .screen iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .interactive-demo {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      color: white;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .interactive-demo h2 {
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    .interactive-demo p {
+      margin-bottom: 20px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .demo-button {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 15px 40px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .demo-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .feature-item {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .feature-item .icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .feature-item h3 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .feature-item p {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .phones-container {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .preview-header h1 {
+        font-size: 2rem;
+      }
+
+      .phone-mockup {
+        max-width: 320px;
+      }
+    }
+
+    .screenshot {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Live app styles for embedded screens */
+    .live-screen {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      transform-origin: top left;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-header">
+    <h1>📱 GraceNote on iPhone</h1>
+    <p>Experience daily Bible inspiration on your device</p>
+  </div>
+
+  <div class="phones-container">
+    <!-- Phone 1: Splash Screen -->
+    <div class="phone-mockup">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="live-screen" style="
+          background: linear-gradient(135deg, #E6D5F5 0%, #FFD4B8 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          padding: 40px;
+        ">
+          <div style="font-size: 5rem; margin-bottom: 20px; animation: pulse 2s infinite;">📖</div>
+          <h1 style="font-size: 2.5rem; font-weight: 700; color: #1E2A38; margin-bottom: 10px; font-family: 'Playfair Display', serif;">GraceNote</h1>
+          <p style="font-size: 1.1rem; color: #6B6B6B; font-style: italic; margin-bottom: 30px;">Receive the Word. One verse at a time.</p>
+          <div style="display: flex; gap: 8px;">
+            <span style="width: 12px; height: 12px; background: #1E2A38; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both;"></span>
+            <span style="width: 12px; height: 12px; background: #1E2A38; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; animation-delay: -0.16s;"></span>
+            <span style="width: 12px; height: 12px; background: #1E2A38; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; animation-delay: -0.32s;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="screen-label">Splash Screen</div>
+    </div>
+
+    <!-- Phone 2: Home Screen -->
+    <div class="phone-mockup">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="live-screen" style="background: #F5EDE0; padding: 20px; overflow-y: auto;">
+          <!-- Navbar -->
+          <div style="background: rgba(255,255,255,0.95); padding: 15px; border-radius: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.5rem;">📖</span>
+              <span style="font-size: 1.1rem; font-weight: 700; color: #1E2A38; font-family: 'Playfair Display', serif;">GraceNote</span>
+            </div>
+            <span style="font-size: 1.3rem; color: #2C2C2C;">⚙️</span>
+          </div>
+
+          <!-- Verse Header -->
+          <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1E2A38; margin-bottom: 5px;">Verse of the Day</h2>
+            <p style="font-size: 0.85rem; color: #6B6B6B;">Monday, November 4, 2025</p>
+          </div>
+
+          <!-- Verse Card -->
+          <div style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-bottom: 20px; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #FF8B7B 0%, #FFD07F 100%); opacity: 0.1;"></div>
+            <div style="position: relative; text-align: center;">
+              <p style="font-family: 'Playfair Display', serif; font-size: 1.3rem; line-height: 1.8; color: #2C2C2C; font-style: italic; margin-bottom: 15px;">
+                "The Lord is my light and my salvation — whom shall I fear?"
+              </p>
+              <p style="font-size: 0.9rem; color: #6B6B6B; font-weight: 600;">— Psalm 27:1 (NIV)</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <button style="flex: 1; background: linear-gradient(135deg, #FF8B7B 0%, #FFD07F 100%); color: white; border: none; padding: 12px; border-radius: 25px; font-size: 0.85rem; font-weight: 600; box-shadow: 0 4px 16px rgba(255,139,123,0.3);">
+              🔖 Save
+            </button>
+            <button style="flex: 1; background: #1E2A38; color: white; border: none; padding: 12px; border-radius: 25px; font-size: 0.85rem; font-weight: 600; box-shadow: 0 4px 16px rgba(30,42,56,0.2);">
+              📤 Share
+            </button>
+          </div>
+
+          <!-- Swipe Indicator -->
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px; color: #6B6B6B; font-size: 0.8rem; margin-bottom: 15px;">
+            <span>◀</span>
+            <span>Swipe for more verses</span>
+            <span>▶</span>
+          </div>
+
+          <!-- Bottom Nav -->
+          <div style="position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.98); padding: 10px; display: flex; justify-content: space-around; box-shadow: 0 -2px 12px rgba(0,0,0,0.08);">
+            <div style="text-align: center; color: #F5D38C;">
+              <div style="font-size: 1.3rem; margin-bottom: 2px;">🏠</div>
+              <div style="font-size: 0.7rem; font-weight: 600;">Home</div>
+            </div>
+            <div style="text-align: center; color: #9B9B9B;">
+              <div style="font-size: 1.3rem; margin-bottom: 2px;">📖</div>
+              <div style="font-size: 0.7rem; font-weight: 600;">Devotional</div>
+            </div>
+            <div style="text-align: center; color: #9B9B9B;">
+              <div style="font-size: 1.3rem; margin-bottom: 2px;">🔖</div>
+              <div style="font-size: 0.7rem; font-weight: 600;">Saved</div>
+            </div>
+            <div style="text-align: center; color: #9B9B9B;">
+              <div style="font-size: 1.3rem; margin-bottom: 2px;">⚙️</div>
+              <div style="font-size: 0.7rem; font-weight: 600;">Settings</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-label">Home Screen</div>
+    </div>
+
+    <!-- Phone 3: Devotional Screen -->
+    <div class="phone-mockup">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="live-screen" style="background: #F5EDE0; padding: 20px; overflow-y: auto;">
+          <!-- Header with Back Button -->
+          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding: 15px 0;">
+            <span style="font-size: 1.5rem; color: #2C2C2C;">◀</span>
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1E2A38;">Daily Devotional</h2>
+          </div>
+
+          <!-- Devotional Card -->
+          <div style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+            <!-- Verse Section -->
+            <div style="background: linear-gradient(135deg, #E6D5F5 0%, #FFD4B8 100%); padding: 25px; border-radius: 15px; margin-bottom: 25px; text-align: center;">
+              <p style="font-family: 'Playfair Display', serif; font-size: 1.15rem; line-height: 1.8; color: #1E2A38; font-style: italic; margin-bottom: 12px;">
+                "Be still, and know that I am God."
+              </p>
+              <p style="font-size: 0.85rem; color: #6B6B6B; font-weight: 600;">— Psalm 46:10 (NIV)</p>
+            </div>
+
+            <!-- Reflection Section -->
+            <div>
+              <h3 style="font-size: 1.3rem; color: #1E2A38; margin-bottom: 15px;">Reflection</h3>
+              <p style="font-size: 0.95rem; line-height: 1.7; color: #2C2C2C; margin-bottom: 25px;">
+                In our busy, noisy world, God calls us to be still. This isn't just physical stillness, but a quieting of our minds and hearts. When we pause and recognize God's sovereignty, we find peace.
+              </p>
+            </div>
+
+            <!-- Prayer Mode Button -->
+            <div style="text-align: center; margin-top: 30px;">
+              <button style="background: linear-gradient(135deg, #1E2A38 0%, #2C4A6B 100%); color: white; border: none; padding: 15px 35px; border-radius: 30px; font-size: 1rem; font-weight: 600; box-shadow: 0 4px 24px rgba(245,211,140,0.4); display: inline-flex; align-items: center; gap: 10px;">
+                ⭐ Enter Prayer Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-label">Devotional</div>
+    </div>
+
+    <!-- Phone 4: Prayer Mode -->
+    <div class="phone-mockup">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="live-screen" style="
+          background: linear-gradient(135deg, #1E2A38 0%, #2C4A6B 100%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 40px 30px;
+          position: relative;
+        ">
+          <!-- Close Button -->
+          <div style="position: absolute; top: 20px; right: 20px;">
+            <span style="font-size: 1.8rem; color: white; opacity: 0.8;">✕</span>
+          </div>
+
+          <!-- Verse -->
+          <div style="text-align: center; margin-bottom: 40px;">
+            <p style="font-family: 'Playfair Display', serif; font-size: 1.5rem; line-height: 1.8; color: white; font-style: italic; margin-bottom: 15px; text-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+              "Be still, and know that I am God."
+            </p>
+            <p style="font-size: 1rem; color: #FFD07F; font-weight: 600;">— Psalm 46:10</p>
+          </div>
+
+          <!-- Breathing Circle -->
+          <div style="
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(245,211,140,0.3), transparent);
+            margin-bottom: 40px;
+            animation: breathe 4s ease-in-out infinite;
+          "></div>
+
+          <!-- Instruction -->
+          <p style="font-size: 1rem; color: rgba(255,255,255,0.9); font-style: italic; text-align: center;">
+            Take a moment to reflect and pray
+          </p>
+
+          <!-- Audio Control -->
+          <div style="position: absolute; bottom: 30px;">
+            <button style="
+              background: rgba(255,255,255,0.2);
+              border: none;
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: white;
+              font-size: 1.3rem;
+              backdrop-filter: blur(10px);
+            ">🔊</button>
+          </div>
+        </div>
+      </div>
+      <div class="screen-label">Prayer Mode</div>
+    </div>
+  </div>
+
+  <div class="interactive-demo">
+    <h2>✨ Try the Live App</h2>
+    <p>Experience GraceNote on your device with all features fully functional</p>
+    <a href="/bible-quotes.html" class="demo-button">Open Full App →</a>
+  </div>
+
+  <div class="interactive-demo">
+    <h2>🎨 Key Features</h2>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="icon">📖</div>
+        <h3>Daily Verses</h3>
+        <p>15+ inspiring Bible verses</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">💾</div>
+        <h3>Save & Share</h3>
+        <p>Keep your favorites</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">🙏</div>
+        <h3>Prayer Mode</h3>
+        <p>Peaceful reflection</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">🌙</div>
+        <h3>Dark Mode</h3>
+        <p>Comfort for any time</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">📱</div>
+        <h3>Responsive</h3>
+        <p>Works everywhere</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">⚙️</div>
+        <h3>Customizable</h3>
+        <p>Multiple Bible versions</p>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    @keyframes breathe {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1.3);
+        opacity: 0.8;
+      }
+    }
+  </style>
+</body>
+</html>
